@@ -17,14 +17,14 @@ func NewClient(clientHello utls.ClientHelloID, proxyUrl ...string) (http.Client,
 			Transport: newRoundTripper(clientHello, dialer),
 			CheckRedirect: func(req *http.Request, via []*http.Request) error {
       				return http.ErrUseLastResponse
-  			}
+  			},
 		}, nil
 	} else {
 		return http.Client{
 			Transport: newRoundTripper(clientHello, proxy.Direct),
 			CheckRedirect: func(req *http.Request, via []*http.Request) error {
       				return http.ErrUseLastResponse
-  			}
+  			},
 		}, nil
 	}
 }
