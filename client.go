@@ -1,4 +1,4 @@
-package dnclient
+package cclient
 
 import (
 	"golang.org/x/net/proxy"
@@ -15,10 +15,16 @@ func NewClient(clientHello utls.ClientHelloID, proxyUrl ...string) (http.Client,
 		}
 		return http.Client{
 			Transport: newRoundTripper(clientHello, dialer),
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+      				return http.ErrUseLastResponse
+  			}
 		}, nil
 	} else {
 		return http.Client{
 			Transport: newRoundTripper(clientHello, proxy.Direct),
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+      				return http.ErrUseLastResponse
+  			}
 		}, nil
 	}
 }
